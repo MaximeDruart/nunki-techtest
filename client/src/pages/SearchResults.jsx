@@ -99,25 +99,17 @@ const SearchResults = () => {
         </div>
       </div>
       {activeTabData ? (
-        <div className="w-full overflow-y-scroll mt-8 h-5/6">
+        <div className="w-full mt-8 h-5/6">
           {error ? (
             <h3 className="text-xl text-warning1">{error}</h3>
           ) : isLoading ? (
             "is loading"
+          ) : activeTabData.tweets.length ? (
+            <SearchTab key={activeTabData.tweets[0].id} keyword={activeTabData.keyword} tweets={activeTabData.tweets} />
           ) : (
-            <div>
-              {activeTabData.tweets.length ? (
-                <SearchTab
-                  key={activeTabData.tweets[0].id}
-                  keyword={activeTabData.keyword}
-                  tweets={activeTabData.tweets}
-                />
-              ) : (
-                <h3 className="text-negative1 text-xl font-gilroy font-bold">
-                  No tweets found for keyword {activeTabData.keyword}
-                </h3>
-              )}
-            </div>
+            <h3 className="text-negative1 text-xl font-gilroy font-bold">
+              No tweets found for keyword {activeTabData.keyword}
+            </h3>
           )}
         </div>
       ) : (

@@ -9,6 +9,6 @@
     @apply w-screen h-screen fixed overflow-hidden;
   }
   * {
-    @apply box-border;
+    @apply box-border font-gilroy;
   }
 }
