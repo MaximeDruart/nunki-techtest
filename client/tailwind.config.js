@@ -14,6 +14,8 @@ module.exports = {
       primary5: "#AA99FF",
       primary6: "#CCC2FF",
       primary7: "#EEEBFF",
+      primarySoft: "#7D63FF6B",
+      primarySofter: "#7D63FF3B",
       secondary1: "#2A2A3C",
       secondary2: "#3B3B54",
       secondary3: "#191924",

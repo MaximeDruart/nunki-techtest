@@ -11,9 +11,9 @@ const T = new Twit({
 // @desc searches content related to the keyword on twitter
 // @access Public
 router.get("/search", (req, res) => {
-  T.get("search/tweets", { q: req.query.q, count: 25 }, (error, data, response) => {
+  T.get("search/tweets", { q: req.query.q, count: 4 }, (error, data, response) => {
     if (error) return res.status(error.statusCode || 500).json({ error })
-    return res.status(200).json({ data })
+    return res.status(200).json({ tweets: data.statuses })
   })
 })
 
@@ -23,7 +23,7 @@ router.get("/search", (req, res) => {
 router.get("/users/:id", (req, res) => {
   T.get(`users/lookup`, { user_id: req.params.id }, (error, data, response) => {
     if (error) return res.status(error.statusCode).json({ error })
-    return res.status(200).json({ data })
+    return res.status(200).json({ user: data })
   })
 })
 
