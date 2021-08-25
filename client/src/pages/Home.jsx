@@ -5,12 +5,11 @@ const Home = () => {
   const [input, setInput] = useState("")
   const history = useHistory()
 
-  const handleChange = ({ target }) => {
-    let { value } = target
-    setInput(value)
-  }
+  const handleChange = ({ target }) => setInput(target.value)
+
   const handleSubmit = (event) => {
     event.preventDefault()
+    // if there's an input, send the user to the next page with the input in the url
     input && history.push(`/search/${input}`)
   }
 

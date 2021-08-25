@@ -3,6 +3,8 @@ import React from "react"
 import useStore from "../searchResultsStore"
 import Modal from "./Modal"
 
+// a higher order component rendering a modal and handling its conditional rendering.
+// THe conditional rendering could be done at a higher level in the page component but it allows for UserModal to contain the animation logic as AnimatePresence must always remain in the tree to trigger the exit animations
 const UserModal = ({ closeModal }) => {
   const userModal = useStore((state) => state.userModal)
   return (

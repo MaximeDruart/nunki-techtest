@@ -11,6 +11,8 @@ const cardAnimProps = {
   transition: { ease: "easeOut" },
 }
 
+// same as usermodal except that it actually switches modal to render as a slideshow
+// component has access to the list of tweet in the tab and switches freely between them
 const TweetModal = ({ closeModal }) => {
   const tweetModal = useStore((state) => state.tweetModal)
   const [activeTweetIndex, setActiveTweetIndex] = useState(tweetModal.tweetIndex || 0)

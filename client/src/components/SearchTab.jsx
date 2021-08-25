@@ -26,6 +26,8 @@ const item = {
   hidden: { opacity: 0, x: -20 },
 }
 
+// receives the array of tweets and map them.
+// handles the framer motion logic for animation.
 const SearchTab = ({ tweets }) => {
   const mappedTweets = useMemo(
     () =>

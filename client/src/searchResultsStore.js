@@ -8,6 +8,7 @@ const store = (set) => ({
   setTweetModal: (obj) => set((state) => ({ tweetModal: { ...state.tweetModal, ...obj } })),
 })
 
+// allows the use of the redux devtools extension with zustand
 const useStore = create(devtools(store))
 
 export default useStore

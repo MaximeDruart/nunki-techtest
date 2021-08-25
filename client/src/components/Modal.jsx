@@ -1,7 +1,11 @@
 import React, { useEffect } from "react"
 import { motion } from "framer-motion"
 
+// simple modal component.
+// the component itself is not handling its ability to show itself (only hide), it is meant to be conditionally rendered by a higher ordered component.
+// it takes in children to render and a function to close itself
 const Modal = ({ children, closeModal, cardAnimProps }) => {
+  // supporting escape key closing
   useEffect(() => {
     const toggle = ({ key }) => key === "Escape" && closeModal()
     window.addEventListener("keydown", toggle)

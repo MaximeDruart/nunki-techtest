@@ -9,9 +9,17 @@ import useStore from "../searchResultsStore"
 import twitterSVG from "../assets/icons/twitter.svg"
 
 const SearchResults = () => {
+  // fetch the keyword in the url
   const urlKeyword = useParams().keyword
 
   const [searchData, setSearchData] = useState([])
+  /** searchData will be an array containing each query and its resulting data, corresponding to each individual tab
+   * [
+   * {keyword : "chicken", tweets : [array of tweets from the api] },
+   * ...one object for each tab
+   * ]
+   */
+
   const [error, setError] = useState(null)
   const [input, setInput] = useState("")
   const [activeTabIndex, setActiveTabIndex] = useState(0)
@@ -23,10 +31,7 @@ const SearchResults = () => {
 
   const [isLoading, setIsLoading] = useState(true)
 
-  const handleChange = ({ target }) => {
-    let { value } = target
-    setInput(value)
-  }
+  const handleChange = ({ target }) => setInput(target.value)
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -46,7 +51,9 @@ const SearchResults = () => {
       .then((res) => res.json())
       .then(({ tweets }) => {
         setSearchData((searchData) => {
+          // push the data from the api into the searchData array
           const newSearchData = [...searchData, { keyword, tweets }]
+          // make it the active tab
           setActiveTabIndex(newSearchData.length - 1)
           setIsLoading(false)
           return newSearchData
@@ -55,6 +62,8 @@ const SearchResults = () => {
   }, [])
 
   const closeTab = (tabIndex) => {
+    // if we close the last tab && tab.length > 1 make the previous one active
+    if (tabIndex === searchData.length - 1 && searchData.length > 1) setActiveTabIndex(searchData.length - 2)
     setSearchData((searchData) => searchData.filter((_, i) => i !== tabIndex))
   }
   const focusTab = (tabIndex) => {
@@ -64,6 +73,7 @@ const SearchResults = () => {
     setSearchData([])
   }
 
+  // we're querying the api a first time on load for the keyword in the url
   useEffect(() => {
     getTweetsForKeyword(urlKeyword)
   }, [urlKeyword])
@@ -83,6 +93,7 @@ const SearchResults = () => {
     [searchData, activeTabIndex]
   )
 
+  // placeholder tweets while setIsLoading = false
   const loadingPlaceholders = useMemo(
     () =>
       new Array(5)
@@ -99,8 +110,8 @@ const SearchResults = () => {
     []
   )
 
+  // trying to keep the most logic out of the html
   const activeTabData = useMemo(() => searchData[activeTabIndex], [searchData, activeTabIndex])
-
   return (
     <div className="w-full h-full px-8 pt-10">
       <TweetModal closeModal={closeTweetModal} />
@@ -135,6 +146,7 @@ const SearchResults = () => {
         </button>
       </div>
       <div className="w-full mt-2 h-5/6 border rounded-lg border-primarySofter p-4 pr-3">
+        {/* covering every cases possible : if it's loading -> if there's data / no data -> if there's an error */}
         <AnimatePresence>
           {isLoading ? (
             <motion.div>{loadingPlaceholders}</motion.div>

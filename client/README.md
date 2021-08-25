@@ -1,6 +1,6 @@
 # Twitter client - Nunki Tech test
 
-This is the front-end part of the project. You can start individually or run `yarn run dev` directly from the root folder.
+This is the front-end part of the project bootstrapped by Vite + React. Usual Vite commands will work. You can start individually or run `yarn run dev` directly from the root folder.
 
 ### To run the whole project
 

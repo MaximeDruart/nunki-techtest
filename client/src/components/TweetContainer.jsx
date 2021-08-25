@@ -3,7 +3,9 @@ import React, { useCallback, useMemo } from "react"
 import useStore from "../searchResultsStore"
 import { addLinksToUrlsInString, getTweetAgeString } from "../assets/utils/functions"
 
+// tweetcontainer rendered by the searchtab
 const TweetContainer = (props) => {
+  // accesses the store to be able to open the modals from the tweet.
   const setUserModal = useStore((state) => state.setUserModal)
   const openUserModal = useCallback(() => setUserModal({ isOpen: true, userDetail: tweet.user }), [setUserModal])
   const setTweetModal = useStore((state) => state.setTweetModal)
