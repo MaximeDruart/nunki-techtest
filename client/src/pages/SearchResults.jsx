@@ -43,7 +43,7 @@ const SearchResults = () => {
 
   const getTweetsForKeyword = useCallback((keyword) => {
     setIsLoading(true)
-    fetch(`${import.meta.env.VITE_API_URL || import.meta.env.BASE_URL}/api/search/?q=${keyword}`)
+    fetch(`${import.meta.env.DEV ? import.meta.env.VITE_API_URL : ""}/api/search/?q=${keyword}`)
       .catch((err) => {
         setIsLoading(false)
         setError(err)
