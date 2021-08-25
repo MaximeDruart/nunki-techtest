@@ -1,8 +1,5 @@
 {
   "name": "twitter_api",
-  "engines": {
-    "node": "14.3"
-  },
   "version": "1.0.0",
   "main": "server.js",
   "license": "MIT",

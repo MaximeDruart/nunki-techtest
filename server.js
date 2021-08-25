@@ -29,7 +29,7 @@ const specs = swaggerJsDoc({
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs))
 
 const twitterRouter = require("./routes/twitter")
-app.use("/", twitterRouter)
+app.use("/api", twitterRouter)
 
 // for heroku prod
 if (process.env.NODE_ENV === "production") {
