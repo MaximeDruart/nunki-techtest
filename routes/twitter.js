@@ -34,10 +34,14 @@ const T = new Twit({
  */
 
 router.get("/search", (req, res) => {
-  T.get("search/tweets", { q: req.query.q, count: req.query.count || 10 }, (error, data, response) => {
-    if (error) return res.status(error.statusCode || 500).json({ error })
-    return res.status(200).json({ tweets: data.statuses })
-  })
+  T.get(
+    "search/tweets",
+    { q: req.query.q, count: req.query.count || 10, result_type: "popular" },
+    (error, data, response) => {
+      if (error) return res.status(error.statusCode || 500).json({ error })
+      return res.status(200).json({ tweets: data.statuses })
+    }
+  )
 })
 
 /**

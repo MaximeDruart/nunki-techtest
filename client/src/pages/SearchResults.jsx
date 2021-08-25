@@ -64,6 +64,9 @@ const SearchResults = () => {
   const closeTab = (tabIndex) => {
     // if we close the last tab && tab.length > 1 make the previous one active
     if (tabIndex === searchData.length - 1 && searchData.length > 1) setActiveTabIndex(searchData.length - 2)
+    // if we close the tab that's not open we need to adjust that the the length is minus 1 and activetabindex should be minus 1 too BUT only if the closed unfocus tab is before the focused tab :P
+    if (tabIndex !== activeTabIndex && tabIndex < activeTabIndex)
+      setActiveTabIndex((activeTabIndex) => activeTabIndex - 1)
     setSearchData((searchData) => searchData.filter((_, i) => i !== tabIndex))
   }
   const focusTab = (tabIndex) => {
