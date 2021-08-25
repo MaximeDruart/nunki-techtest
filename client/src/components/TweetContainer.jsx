@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import React, { useCallback, useMemo } from "react"
 import useStore from "../searchResultsStore"
-import { getTweetAgeString } from "../assets/utils/functions"
+import { addLinksToUrlsInString, getTweetAgeString } from "../assets/utils/functions"
 
 const TweetContainer = (props) => {
   const setUserModal = useStore((state) => state.setUserModal)
@@ -14,21 +14,35 @@ const TweetContainer = (props) => {
 
   const tweet = useMemo(() => props.tweet, [props])
   return (
-    <motion.div {...props} className="relative w-full p-4 pb-10 bg-secondary1 rounded-lg mb-5 flex flex-row">
-      <div className="rounded-lg h-14 w-14 overflow-hidden flex-shrink-0">
-        <img className="object-cover w-full h-full" src={tweet.user.profile_image_url} alt="Tweet user" />
-      </div>
-      <div className="ml-4">
-        <div className="text-textStandard">
-          <button onClick={openUserModal} className="text-textDisabled">
-            <span className="font-bold text-textStandard">{tweet.user.name}</span>
-            <span className="ml-1 text-textDisabled">@{tweet.user.screen_name}</span>
-          </button>
-          <span> -</span>
-          <span className="ml-1 text-textDisabled">{getTweetAgeString()}</span>
+    <motion.div {...props} className="relative w-full p-4 pb-10 bg-secondary1 rounded-lg mb-5 flex flex-col">
+      <div className="flex flex-row w-full">
+        <div className="rounded-lg h-14 w-14 overflow-hidden flex-shrink-0">
+          <img className="object-cover w-full h-full" src={tweet.user.profile_image_url} alt="Tweet user" />
         </div>
-        <div className="text-textStandard font-gilroy font-medium text-base mb-2 pr-12">{tweet.text}</div>
+        <div className="ml-4">
+          <div className="text-textStandard">
+            <button onClick={openUserModal} className="text-textDisabled">
+              <span className="font-bold text-textStandard">{tweet.user.name}</span>
+              <span className="ml-1 text-textDisabled">@{tweet.user.screen_name}</span>
+            </button>
+            <span> -</span>
+            <span className="ml-1 text-textDisabled">{getTweetAgeString()}</span>
+          </div>
+          <div
+            dangerouslySetInnerHTML={{ __html: addLinksToUrlsInString(tweet.text) }}
+            className="text-textStandard font-gilroy font-medium text-base mb-2 pr-12"
+          ></div>
+        </div>
       </div>
+      {tweet.entities.media && (
+        <div className="mt-4 flex flex-row justify-between h-52">
+          {tweet.entities.media.map((media) => (
+            <div key={media.id} className="h-full rounded-lg overflow-hidden">
+              <img className="object-cover h-full" src={media.media_url} alt="" />
+            </div>
+          ))}
+        </div>
+      )}
       <div className="absolute opacity-70 px-2 h-8 rounded-lg bg-secondary2 top-3 right-3 flex flex-row items-center">
         <button onClick={openTweetModal} className="material-icons text-textStandard">
           launch

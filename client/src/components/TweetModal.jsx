@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import useStore from "../searchResultsStore"
 import Modal from "./Modal"
-import { getTweetAgeString } from "../assets/utils/functions"
+import { addLinksToUrlsInString, getTweetAgeString } from "../assets/utils/functions"
 
 const cardAnimProps = {
   initial: { opacity: 0, scale: 0 },
@@ -39,11 +39,20 @@ const TweetModal = ({ closeModal }) => {
     setTweet(tweetModal.tweets[activeTweetIndex])
   }, [activeTweetIndex])
 
+  useEffect(() => {
+    const toggle = ({ key }) => {
+      if (key === "ArrowLeft") goPrevTweet()
+      if (key === "ArrowRight") goNextTweet()
+    }
+    window.addEventListener("keydown", toggle)
+    return () => window.removeEventListener("keydown", toggle)
+  }, [goPrevTweet, goNextTweet])
+
   return (
     <AnimatePresence>
       {tweetModal.isOpen && tweet && (
         <Modal cardAnimProps={cardAnimProps} key={activeTweetIndex} closeModal={closeModal}>
-          <div className="bg-secondary1 rounded-lg relative flex flex-row p-6 px-8 pb-10">
+          <div className="bg-secondary1 rounded-lg relative flex flex-col p-6 px-8 pb-10">
             <motion.button
               style={{ opacity: activeTweetIndex === 0 ? 0.2 : 1 }}
               disabled={activeTweetIndex === 0}
@@ -69,27 +78,39 @@ const TweetModal = ({ closeModal }) => {
                 close
               </motion.button>
             </div>
-            <div className="rounded-lg h-14 w-14 overflow-hidden flex-shrink-0">
-              <img className="object-cover w-full h-full" src={tweet.user.profile_image_url} alt="Tweet user" />
-            </div>
-            <div className="ml-4">
-              <div className="text-textStandard">
-                <a
-                  href={`http://twitter.com/${tweet.user.screen_name}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-textDisabled max-w-xs md:max-w-md"
-                >
-                  <span className="font-bold text-textStandard">{tweet.user.name}</span>
-                  <span className="ml-1 text-textDisabled">@{tweet.user.screen_name}</span>
-                </a>
-                <span> -</span>
-                <span className="ml-1 text-textDisabled">{getTweetAgeString(tweet.created_at)}</span>
+            <div className="flex flex-row w-full">
+              <div className="rounded-lg h-14 w-14 overflow-hidden flex-shrink-0">
+                <img className="object-cover w-full h-full" src={tweet.user.profile_image_url} alt="Tweet user" />
               </div>
-              <div className="text-textStandard mb-4 font-gilroy font-medium text-base max-w-xs md:max-w-md">
-                {tweet.text}
+              <div className="ml-4">
+                <div className="text-textStandard max-w-xs md:max-w-md">
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={`http://twitter.com/${tweet.user.screen_name}`}
+                    className="text-textDisabled"
+                  >
+                    <span className="font-bold text-textStandard">{tweet.user.name}</span>
+                    <span className="ml-1 text-textDisabled">@{tweet.user.screen_name}</span>
+                  </a>
+                  <span> -</span>
+                  <span className="ml-1 text-textDisabled">{getTweetAgeString()}</span>
+                </div>
+                <div
+                  dangerouslySetInnerHTML={{ __html: addLinksToUrlsInString(tweet.text) }}
+                  className="text-textStandard font-gilroy font-medium text-base mb-2 pr-12 max-w-xs md:max-w-md"
+                ></div>
               </div>
             </div>
+            {tweet.entities.media && (
+              <div className="mt-4 flex flex-row justify-between h-52">
+                {tweet.entities.media.map((media) => (
+                  <div key={media.id} className="h-full rounded-lg overflow-hidden">
+                    <img className="object-cover h-full" src={media.media_url} alt="" />
+                  </div>
+                ))}
+              </div>
+            )}
             <div className="absolute opacity-70 px-3 h-8 rounded-lg bg-secondary2 bottom-4 right-4 flex flex-row items-center">
               <div className="text-textStandard flex flex-row items-center">
                 {tweet.favorite_count}

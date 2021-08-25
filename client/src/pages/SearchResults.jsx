@@ -1,4 +1,4 @@
-import { AnimatePresence } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import React, { useState, useEffect, useMemo, useCallback } from "react"
 import { useParams } from "react-router-dom"
 import SearchTab from "../components/SearchTab"
@@ -37,6 +37,7 @@ const SearchResults = () => {
   }
 
   const getTweetsForKeyword = useCallback((keyword) => {
+    setIsLoading(true)
     fetch(`${import.meta.env.VITE_API_URL}/search/?q=${keyword}`)
       .catch((err) => {
         setIsLoading(false)
@@ -82,7 +83,24 @@ const SearchResults = () => {
     [searchData, activeTabIndex]
   )
 
-  const activeTabData = searchData[activeTabIndex]
+  const loadingPlaceholders = useMemo(
+    () =>
+      new Array(5)
+        .fill("")
+        .map((_, i) => (
+          <motion.div
+            key={i}
+            style={{ height: 80 + (Math.random() - 0.5) * 40 }}
+            animate={{ opacity: 0.6 }}
+            transition={{ ease: "linear", duration: 1, repeat: Infinity, repeatType: "reverse" }}
+            className="relative w-full p-4 pb-10 bg-secondary1 rounded-lg mb-5 flex flex-row h-20"
+          ></motion.div>
+        )),
+    []
+  )
+
+  const activeTabData = useMemo(() => searchData[activeTabIndex], [searchData, activeTabIndex])
+
   return (
     <div className="w-full h-full px-8 pt-10">
       <TweetModal closeModal={closeTweetModal} />
@@ -117,12 +135,12 @@ const SearchResults = () => {
         </button>
       </div>
       <div className="w-full mt-2 h-5/6 border rounded-lg border-primarySofter p-4 pr-3">
-        <AnimatePresence exitBeforeEnter>
-          {activeTabData ? (
+        <AnimatePresence>
+          {isLoading ? (
+            <motion.div>{loadingPlaceholders}</motion.div>
+          ) : activeTabData ? (
             error ? (
               <h3 className="text-xl text-warning1">{error}</h3>
-            ) : isLoading ? (
-              "is loading"
             ) : activeTabData.tweets.length ? (
               <SearchTab
                 key={activeTabData.tweets[0].id}
