@@ -95,7 +95,7 @@ const SearchResults = () => {
           type="text"
         />
         <button
-          disabled={!!input}
+          disabled={!input}
           className={`ml-3 ${
             input ? "bg-primary1" : "bg-primary5"
           } transition-colors text-textStandard rounded font-gilroy font-medium text-lg w-4/12 md:w-2/12 lg:w-1/12`}
