@@ -29,6 +29,7 @@ module.exports = {
       neutral3: "#EBEBEB",
       neutral4: "#E0E0E0",
       negative1: "#F5704F",
+      negative2: "#ffa994",
       success1: "#58BF7E",
       warning1: "#FFCC26",
     },

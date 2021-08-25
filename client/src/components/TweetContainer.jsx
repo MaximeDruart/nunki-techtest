@@ -27,7 +27,7 @@ const TweetContainer = (props) => {
           <span> -</span>
           <span className="ml-1 text-textDisabled">{getTweetAgeString()}</span>
         </div>
-        <div className="text-textStandard font-gilroy font-medium text-base pr-12">{tweet.text}</div>
+        <div className="text-textStandard font-gilroy font-medium text-base mb-2 pr-12">{tweet.text}</div>
       </div>
       <div className="absolute opacity-70 px-2 h-8 rounded-lg bg-secondary2 top-3 right-3 flex flex-row items-center">
         <button onClick={openTweetModal} className="material-icons text-textStandard">

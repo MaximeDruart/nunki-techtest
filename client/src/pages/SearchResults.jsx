@@ -6,6 +6,7 @@ import TabButton from "../components/TabButton"
 import UserModal from "../components/UserModal"
 import TweetModal from "../components/TweetModal"
 import useStore from "../searchResultsStore"
+import twitterSVG from "../assets/icons/twitter.svg"
 
 const SearchResults = () => {
   const urlKeyword = useParams().keyword
@@ -29,8 +30,10 @@ const SearchResults = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    setInput("")
-    getTweetsForKeyword(input)
+    if (input) {
+      getTweetsForKeyword(input)
+      setInput("")
+    }
   }
 
   const getTweetsForKeyword = useCallback((keyword) => {
@@ -92,22 +95,26 @@ const SearchResults = () => {
           type="text"
         />
         <button
-          className="ml-3 bg-primary1 text-textStandard rounded font-gilroy font-medium text-lg w-4/12 md:w-2/12 lg:w-1/12"
+          disabled={!!input}
+          className={`ml-3 ${
+            input ? "bg-primary1" : "bg-primary5"
+          } transition-colors text-textStandard rounded font-gilroy font-medium text-lg w-4/12 md:w-2/12 lg:w-1/12`}
           type="submit"
         >
           Search
         </button>
       </form>
       <div className="w-full mt-6 flex flex-row justify-between items-center">
-        <ul className="flex flex-row w-10/12">{mappedTabs}</ul>
-        <div className="">
-          <button
-            onClick={clearTabs}
-            className="bg-negative1 text-textStandard rounded font-gilroy font-medium text-lg py-3 px-6"
-          >
-            Clear tabs
-          </button>
-        </div>
+        <ul className="flex flex-row w-10/12 h-16">{mappedTabs}</ul>
+        <button
+          onClick={clearTabs}
+          disabled={!searchData.length}
+          className={`${
+            searchData.length ? "bg-negative1" : "bg-negative2"
+          } text-textStandard rounded font-gilroy font-medium text-lg py-2 px-6 transition-colors`}
+        >
+          Clear tabs
+        </button>
       </div>
       <div className="w-full mt-2 h-5/6 border rounded-lg border-primarySofter p-4 pr-3">
         <AnimatePresence exitBeforeEnter>
@@ -128,7 +135,16 @@ const SearchResults = () => {
               </h3>
             )
           ) : (
-            <h3 className="text-textStandard">Make a search !</h3>
+            <div className="relative w-full h-full">
+              <h3 className="text-textStandard text-2xl font-medium">Make a search !</h3>
+              <div className="">
+                <img
+                  className="opacity-20 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
+                  src={twitterSVG}
+                  alt=""
+                />
+              </div>
+            </div>
           )}
         </AnimatePresence>
       </div>

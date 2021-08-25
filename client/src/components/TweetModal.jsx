@@ -43,7 +43,7 @@ const TweetModal = ({ closeModal }) => {
     <AnimatePresence>
       {tweetModal.isOpen && tweet && (
         <Modal cardAnimProps={cardAnimProps} key={activeTweetIndex} closeModal={closeModal}>
-          <div className="bg-secondary1 rounded-lg relative flex flex-row p-6 pb-10">
+          <div className="bg-secondary1 rounded-lg relative flex flex-row p-6 px-8 pb-10">
             <motion.button
               style={{ opacity: activeTweetIndex === 0 ? 0.2 : 1 }}
               disabled={activeTweetIndex === 0}
@@ -60,7 +60,7 @@ const TweetModal = ({ closeModal }) => {
             >
               arrow_forward_ios
             </motion.button>
-            <div className="absolute top-6 right-6">
+            <div className="absolute top-4 right-6">
               <motion.button
                 onClick={closeModal}
                 whileHover={{ scale: 1.08, rotate: 5 }}
@@ -86,11 +86,11 @@ const TweetModal = ({ closeModal }) => {
                 <span> -</span>
                 <span className="ml-1 text-textDisabled">{getTweetAgeString(tweet.created_at)}</span>
               </div>
-              <div className="text-textStandard font-gilroy font-medium text-base max-w-xs md:max-w-md">
+              <div className="text-textStandard mb-4 font-gilroy font-medium text-base max-w-xs md:max-w-md">
                 {tweet.text}
               </div>
             </div>
-            <div className="absolute opacity-70 px-3 h-8 rounded-lg bg-secondary2 bottom-3 right-3 flex flex-row items-center">
+            <div className="absolute opacity-70 px-3 h-8 rounded-lg bg-secondary2 bottom-4 right-4 flex flex-row items-center">
               <div className="text-textStandard flex flex-row items-center">
                 {tweet.favorite_count}
                 <span className="material-icons ml-1.5 flex flex-row">favorite_border</span>

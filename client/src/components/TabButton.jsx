@@ -11,7 +11,7 @@ const TabButton = ({ activeTabIndex, keyword, index, closeTab, focusTab }) => {
       key={keyword + index}
       className={`border ${
         activeTabIndex === index ? "border-primarySoft" : "border-primarySofter"
-      } mr-4 flex flex-row items-center text-textStandard rounded-md font-gilroy font-medium text-lg h-16 px-3`}
+      } mr-4 flex flex-row items-center text-textStandard rounded-md font-gilroy font-medium text-lg h-full px-3`}
     >
       <motion.button
         onClick={focusTab}
