@@ -11,7 +11,7 @@ const T = new Twit({
 // @desc searches content related to the keyword on twitter
 // @access Public
 router.get("/search", (req, res) => {
-  T.get("search/tweets", { q: req.query.q, count: 4 }, (error, data, response) => {
+  T.get("search/tweets", { q: req.query.q, count: 10 }, (error, data, response) => {
     if (error) return res.status(error.statusCode || 500).json({ error })
     return res.status(200).json({ tweets: data.statuses })
   })

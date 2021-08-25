@@ -1,7 +1,10 @@
-import { useState, useEffect, useMemo, useCallback } from "react"
+import { AnimatePresence } from "framer-motion"
+import React, { useState, useEffect, useMemo, useCallback } from "react"
 import { useParams } from "react-router-dom"
 import SearchTab from "../components/SearchTab"
 import TabButton from "../components/TabButton"
+import UserModal from "../components/UserModal"
+import useStore from "../searchResultsStore"
 
 const SearchResults = () => {
   const urlKeyword = useParams().keyword
@@ -10,6 +13,9 @@ const SearchResults = () => {
   const [error, setError] = useState(null)
   const [input, setInput] = useState("")
   const [activeTabIndex, setActiveTabIndex] = useState(0)
+
+  const setUserModal = useStore((state) => state.setUserModal)
+  const closeModal = useCallback(() => setUserModal({ isOpen: false }), [setUserModal])
 
   const [isLoading, setIsLoading] = useState(true)
 
@@ -41,10 +47,6 @@ const SearchResults = () => {
       })
   }, [])
 
-  useEffect(() => {
-    getTweetsForKeyword(urlKeyword)
-  }, [urlKeyword])
-
   const closeTab = (tabIndex) => {
     setSearchData((searchData) => searchData.filter((_, i) => i !== tabIndex))
   }
@@ -54,6 +56,10 @@ const SearchResults = () => {
   const clearTabs = () => {
     setSearchData([])
   }
+
+  useEffect(() => {
+    getTweetsForKeyword(urlKeyword)
+  }, [urlKeyword])
 
   const mappedTabs = useMemo(
     () =>
@@ -73,9 +79,10 @@ const SearchResults = () => {
   const activeTabData = searchData[activeTabIndex]
   return (
     <div className="w-full h-full px-8 pt-10">
+      <UserModal closeModal={closeModal} />
       <form className="w-full flex flex-row h-11" onSubmit={handleSubmit}>
         <input
-          className="outline-none w-8/12 md:w-10/12 lg:w-11/12 rounded-md h-11 pl-4 border border-primary1 bg-background text-textStandard text-lg border-black focus:border-3"
+          className="outline-none w-8/12 md:w-10/12 lg:w-11/12 rounded-md h-11 pl-4 border border-primary1 bg-background text-textStandard text-lg focus:border-3"
           onChange={handleChange}
           value={input}
           type="text"
@@ -98,23 +105,29 @@ const SearchResults = () => {
           </button>
         </div>
       </div>
-      {activeTabData ? (
-        <div className="w-full mt-8 h-5/6">
-          {error ? (
-            <h3 className="text-xl text-warning1">{error}</h3>
-          ) : isLoading ? (
-            "is loading"
-          ) : activeTabData.tweets.length ? (
-            <SearchTab key={activeTabData.tweets[0].id} keyword={activeTabData.keyword} tweets={activeTabData.tweets} />
+      <div className="w-full mt-2 h-5/6 border rounded-lg border-primarySofter p-4">
+        <AnimatePresence exitBeforeEnter>
+          {activeTabData ? (
+            error ? (
+              <h3 className="text-xl text-warning1">{error}</h3>
+            ) : isLoading ? (
+              "is loading"
+            ) : activeTabData.tweets.length ? (
+              <SearchTab
+                key={activeTabData.tweets[0].id}
+                keyword={activeTabData.keyword}
+                tweets={activeTabData.tweets}
+              />
+            ) : (
+              <h3 className="text-negative1 text-xl font-gilroy font-bold">
+                No tweets found for keyword {activeTabData.keyword}
+              </h3>
+            )
           ) : (
-            <h3 className="text-negative1 text-xl font-gilroy font-bold">
-              No tweets found for keyword {activeTabData.keyword}
-            </h3>
+            <h3 className="text-textStandard">Make a search !</h3>
           )}
-        </div>
-      ) : (
-        <h3 className="text-textStandard">Make a search !</h3>
-      )}
+        </AnimatePresence>
+      </div>
     </div>
   )
 }

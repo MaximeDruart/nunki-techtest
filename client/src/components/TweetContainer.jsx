@@ -1,6 +1,11 @@
-import { useCallback } from "react"
+import { motion } from "framer-motion"
+import React, { useCallback, useMemo } from "react"
+import useStore from "../searchResultsStore"
 
-const TweetContainer = ({ tweet }) => {
+const TweetContainer = (props) => {
+  const setUserModal = useStore((state) => state.setUserModal)
+  const openModal = useCallback(() => setUserModal({ isOpen: true, userDetail: tweet.user }), [setUserModal])
+
   const getTweetAgeString = useCallback(() => {
     const tweetAge = Math.floor((Date.now() - Date.parse(tweet.created_at)) / 1000)
     if (tweetAge < 60) return `${tweetAge} seconds ago`
@@ -8,23 +13,33 @@ const TweetContainer = ({ tweet }) => {
     if (tweetAge < 3600 * 24) return `${tweetAge / (60 * 24)} hours ago`
     return "really old tweet"
   }, [])
+
+  const tweet = useMemo(() => props.tweet, [props])
   return (
-    <div className="relative w-full h-48 p-4 bg-secondary1 rounded-lg mb-10">
-      <div className="text-textStandard">
-        <span className="font-medium">{tweet.user.name}</span>
-        <span className="ml-1 text-textDisabled">@{tweet.user.screen_name}</span>
-        <span className="ml-1 text-textDisabled">{getTweetAgeString()}</span>
+    <motion.div {...props} className="relative w-full p-4 pb-10 bg-secondary1 rounded-lg mb-5 flex flex-row">
+      <div className="rounded-lg h-14 w-14 overflow-hidden flex-shrink-0">
+        <img className="object-cover w-full h-full" src={tweet.user.profile_image_url} alt="Tweet user" />
       </div>
-      <div className="text-textStandard font-gilroy font-medium text-base">{tweet.text}</div>
-      <div className="absolute opacity-70 px-3 h-8 rounded-lg bg-secondary2 bottom-3 right-3 flex flex-row items-center">
-        <div className="text-textStandard flex flex-row">
-          {tweet.retweet_count}
-          <span className="material-icons ml-1 flex flex-row">favorite_border</span>
+      <div className="ml-4">
+        <div className="text-textStandard">
+          <button onClick={openModal} className="text-textDisabled">
+            <span className="font-bold text-textStandard">{tweet.user.name}</span>
+            <span className="ml-1 text-textDisabled">@{tweet.user.screen_name}</span>
+          </button>
+          <span> -</span>
+          <span className="ml-1 text-textDisabled">{getTweetAgeString()}</span>
         </div>
-        <div className="ml-2 text-textStandard flex flex-row">
+        <div className="text-textStandard font-gilroy font-medium text-base">{tweet.text}</div>
+      </div>
+      <div className="absolute opacity-70 px-3 h-8 rounded-lg bg-secondary2 bottom-3 right-3 flex flex-row items-center">
+        <div className="text-textStandard flex flex-row items-center">
           {tweet.favorite_count}
+          <span className="material-icons ml-1.5 flex flex-row">favorite_border</span>
+        </div>
+        <div className="ml-3 text-textStandard flex flex-row items-center">
+          {tweet.retweet_count}
           <span>
-            <svg className=" ml-1" width="24" height="24" viewBox="0 0 24 24">
+            <svg className=" ml-1.5" width="24" height="24" viewBox="0 0 24 24">
               <g>
                 <path
                   fill="white"
@@ -35,7 +50,7 @@ const TweetContainer = ({ tweet }) => {
           </span>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

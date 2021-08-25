@@ -1,4 +1,4 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import { useHistory } from "react-router-dom"
 
 const Home = () => {
@@ -20,7 +20,7 @@ const Home = () => {
       <div className="mt-8 w-full">
         <form className="w-full lg:w-3/5 mx-auto flex flex-row" onSubmit={handleSubmit}>
           <input
-            className="outline-none w-10/12 rounded-md h-11 pl-4 border border-primary1 bg-background text-textStandard text-lg border-black focus:border-3"
+            className="outline-none w-10/12 rounded-md h-11 pl-4 border border-primary1 bg-background text-textStandard text-lg focus:border-3"
             onChange={handleChange}
             value={input}
             type="text"

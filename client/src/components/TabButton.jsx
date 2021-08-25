@@ -1,3 +1,5 @@
+import React from "react"
+
 const TabButton = ({ activeTabIndex, keyword, index, closeTab, focusTab }) => {
   return (
     <div
