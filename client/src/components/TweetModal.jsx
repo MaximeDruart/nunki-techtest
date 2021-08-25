@@ -74,10 +74,15 @@ const TweetModal = ({ closeModal }) => {
             </div>
             <div className="ml-4">
               <div className="text-textStandard">
-                <button className="text-textDisabled max-w-xs md:max-w-md">
+                <a
+                  href={`http://twitter.com/${tweet.user.screen_name}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-textDisabled max-w-xs md:max-w-md"
+                >
                   <span className="font-bold text-textStandard">{tweet.user.name}</span>
                   <span className="ml-1 text-textDisabled">@{tweet.user.screen_name}</span>
-                </button>
+                </a>
                 <span> -</span>
                 <span className="ml-1 text-textDisabled">{getTweetAgeString(tweet.created_at)}</span>
               </div>

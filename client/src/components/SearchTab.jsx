@@ -2,7 +2,6 @@ import { AnimatePresence, motion } from "framer-motion"
 import React, { useCallback, useMemo } from "react"
 import PerfectScrollbar from "react-perfect-scrollbar"
 import "react-perfect-scrollbar/dist/css/styles.css"
-import useStore from "../searchResultsStore"
 import TweetContainer from "./TweetContainer"
 
 const list = {
@@ -36,7 +35,7 @@ const SearchTab = ({ tweets }) => {
     [tweets]
   )
   return (
-    <PerfectScrollbar className="pr-4">
+    <PerfectScrollbar options={{ suppressScrollX: true }} className="pr-4">
       <motion.div key="list" initial="hidden" animate="visible" variants={list}>
         {mappedTweets}
       </motion.div>

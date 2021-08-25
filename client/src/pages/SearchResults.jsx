@@ -68,7 +68,7 @@ const SearchResults = () => {
     () =>
       searchData.map(({ keyword }, i) => (
         <TabButton
-          key={i}
+          key={keyword + i}
           index={i}
           keyword={keyword}
           activeTabIndex={activeTabIndex}
@@ -99,7 +99,7 @@ const SearchResults = () => {
         </button>
       </form>
       <div className="w-full mt-6 flex flex-row justify-between items-center">
-        <div className="flex flex-row w-10/12">{mappedTabs}</div>
+        <ul className="flex flex-row w-10/12">{mappedTabs}</ul>
         <div className="">
           <button
             onClick={clearTabs}
@@ -109,7 +109,7 @@ const SearchResults = () => {
           </button>
         </div>
       </div>
-      <div className="w-full mt-2 h-5/6 border rounded-lg border-primarySofter p-4">
+      <div className="w-full mt-2 h-5/6 border rounded-lg border-primarySofter p-4 pr-3">
         <AnimatePresence exitBeforeEnter>
           {activeTabData ? (
             error ? (

@@ -27,7 +27,12 @@ const UserModal = ({ closeModal }) => {
                   alt="Tweet user"
                 />
               </div>
-              <a href={`http://twitter.com/${userModal.userDetail.screen_name}`} className="ml-4 max-w-xs md:max-w-md">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`http://twitter.com/${userModal.userDetail.screen_name}`}
+                className="ml-4 max-w-xs md:max-w-md"
+              >
                 <div className="text-textStandard text-xl font-bold">{userModal.userDetail.name}</div>
                 <div className="text-textDisabled text-base mt-0">@{userModal.userDetail.screen_name}</div>
               </a>
