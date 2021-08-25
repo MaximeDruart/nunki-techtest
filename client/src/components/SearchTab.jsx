@@ -1,7 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion"
-import React, { useMemo } from "react"
+import React, { useCallback, useMemo } from "react"
 import PerfectScrollbar from "react-perfect-scrollbar"
 import "react-perfect-scrollbar/dist/css/styles.css"
+import useStore from "../searchResultsStore"
 import TweetContainer from "./TweetContainer"
 
 const list = {
@@ -26,10 +27,12 @@ const item = {
   hidden: { opacity: 0, x: -20 },
 }
 
-const SearchTab = ({ keyword, tweets }) => {
+const SearchTab = ({ tweets }) => {
   const mappedTweets = useMemo(
     () =>
-      tweets.map((tweet, i) => <TweetContainer exit={{ x: -20, opacity: 0  }} variants={item} key={i} tweet={tweet} />),
+      tweets.map((tweet, i) => (
+        <TweetContainer exit={{ x: -20, opacity: 0 }} variants={item} tweets={tweets} key={i} index={i} tweet={tweet} />
+      )),
     [tweets]
   )
   return (

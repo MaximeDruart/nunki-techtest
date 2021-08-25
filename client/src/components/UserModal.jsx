@@ -9,7 +9,7 @@ const UserModal = ({ closeModal }) => {
     <AnimatePresence exitBeforeEnter>
       {userModal.isOpen && (
         <Modal key="uuuu" closeModal={closeModal}>
-          <div className="relative flex flex-col p-6">
+          <div className="bg-secondary1 rounded-lg relative flex flex-col p-6">
             <div className="absolute top-6 right-6">
               <motion.button
                 onClick={closeModal}

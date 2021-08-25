@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom"
 import SearchTab from "../components/SearchTab"
 import TabButton from "../components/TabButton"
 import UserModal from "../components/UserModal"
+import TweetModal from "../components/TweetModal"
 import useStore from "../searchResultsStore"
 
 const SearchResults = () => {
@@ -15,7 +16,9 @@ const SearchResults = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0)
 
   const setUserModal = useStore((state) => state.setUserModal)
-  const closeModal = useCallback(() => setUserModal({ isOpen: false }), [setUserModal])
+  const closeUserModal = useCallback(() => setUserModal({ isOpen: false }), [setUserModal])
+  const setTweetModal = useStore((state) => state.setTweetModal)
+  const closeTweetModal = useCallback(() => setTweetModal({ isOpen: false }), [setTweetModal])
 
   const [isLoading, setIsLoading] = useState(true)
 
@@ -79,7 +82,8 @@ const SearchResults = () => {
   const activeTabData = searchData[activeTabIndex]
   return (
     <div className="w-full h-full px-8 pt-10">
-      <UserModal closeModal={closeModal} />
+      <TweetModal closeModal={closeTweetModal} />
+      <UserModal closeModal={closeUserModal} />
       <form className="w-full flex flex-row h-11" onSubmit={handleSubmit}>
         <input
           className="outline-none w-8/12 md:w-10/12 lg:w-11/12 rounded-md h-11 pl-4 border border-primary1 bg-background text-textStandard text-lg focus:border-3"

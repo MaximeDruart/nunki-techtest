@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { motion } from "framer-motion"
 
-const Modal = ({ children, closeModal }) => {
+const Modal = ({ children, closeModal, cardAnimProps }) => {
   useEffect(() => {
     const toggle = ({ key }) => key === "Escape" && closeModal()
     window.addEventListener("keydown", toggle)
@@ -21,7 +21,7 @@ const Modal = ({ children, closeModal }) => {
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0 }}
-        className="bg-secondary1 rounded-lg"
+        {...cardAnimProps}
       >
         {children}
       </motion.div>
