@@ -28,7 +28,7 @@ const TweetContainer = (props) => {
               <span className="ml-1 text-textDisabled">@{tweet.user.screen_name}</span>
             </button>
             <span> -</span>
-            <span className="ml-1 text-textDisabled">{getTweetAgeString()}</span>
+            <span className="ml-1 text-textDisabled">{getTweetAgeString(tweet.created_at)}</span>
           </div>
           <div
             dangerouslySetInnerHTML={{ __html: addLinksToUrlsInString(tweet.text) }}
