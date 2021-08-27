@@ -2,6 +2,10 @@
 
 Full stack Express + React project
 
+## Requirements
+
+node / yarn
+
 ## Getting Started
 
 ### Clone the project
